@@ -7,11 +7,11 @@ export ENV?=dev
 
 install:
 	@( \
-		if [ ! -d .venv ]; then python3 -m venv --copies .venv; fi; \
+		if [ ! -d .venv ]; then python3 -m venv .venv; fi; \
 		source .venv/bin/activate; \
-		python3 -m pip install -qU pip; \
-		python3 -m pip install -r requirements-dev.txt; \
-		python3 -m pip install -r requirements.txt; \
+		pip install -qU pip; \
+		pip install -r requirements-dev.txt; \
+		pip install -r requirements.txt; \
 	)
 
 setup:
