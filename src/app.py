@@ -9,11 +9,11 @@ def main(event, context) -> Dict:
     file_csv = b64decode(event["body-json"]).decode("utf-8")
 
     summary = Summary(file_csv)
-
     summary.execute()
     email_id = summary.send_email(email)
 
     return {
         "emailId": email_id,
-        "summary_data": summary.data.shape[0],
+        "len_data": summary.data.shape[0],
+        "resume": summary.resume,
     }
