@@ -19,3 +19,10 @@ class SummaryResumeKeyNames(Enum):
     transactionsByMonths = "transactionsByMonths"
     monthName = "monthName"
     numberTransactionOfMonth = "numberTransactionOfMonth"
+
+
+AWS_SERVICE_SES = "ses"
+AWS_REGION_WEST = "us-west-2"
+
+SENDER = "correo@algo.com"
+NAME_FILE = "resumen"

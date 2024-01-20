@@ -1,6 +1,7 @@
 import csv
 import io
 from calendar import month_name
+from typing import Optional
 
 import pandas as pd
 from pandas import DataFrame
@@ -63,10 +64,12 @@ class Summary:
             month_total = months.count(month_number)
 
             if month_total > 0:
-                transactions.append({
-                    SummaryResumeKeyNames.monthName.value: month_name[month_number],
-                    SummaryResumeKeyNames.numberTransactionOfMonth.value: month_total,
-                })
+                transactions.append(
+                    {
+                        SummaryResumeKeyNames.monthName.value: month_name[month_number],
+                        SummaryResumeKeyNames.numberTransactionOfMonth.value: month_total,
+                    }
+                )
 
         self.resume[SummaryResumeKeyNames.transactionsByMonths.value] = transactions
 
@@ -81,9 +84,11 @@ class Summary:
         self.__save_data()
         self.__process_data()
 
-    def send_email(self, email_str: str) -> int:
+    def send_email(self, email_str: str) -> Optional[str]:
 
         email = Email()
-        message = email.create_template(self.resume)
+        message_str = email.create_template(self.resume)
 
-        return email.send(email_str, message)
+        return email.send(
+            pd.DataFrame.from_records(self.resume), email_str, message_str
+        )
