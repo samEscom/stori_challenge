@@ -34,8 +34,8 @@ def test_reminders(monkeypatch):
 
     assert response["emailId"] == "12345678"
     assert response["lenData"] == 4
-    assert isinstance(response["resume"], dict)
-    assert response["resume"]["totalBalance"] == 39.74
-    assert response["resume"]["averageCreditAmount"] == 35.25
-    assert response["resume"]["averageDebitAmount"] == -15.38
-    assert isinstance(response["resume"]["transactionsByMonths"], list)
+    assert isinstance(response["summaryData"], dict)
+    assert response["summaryData"]["totalBalance"] == 39.74
+    assert response["summaryData"]["averageCreditAmount"] == 35.25
+    assert response["summaryData"]["averageDebitAmount"] == -15.38
+    assert isinstance(response["summaryData"]["transactionsByMonths"], list)

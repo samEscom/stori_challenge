@@ -1,19 +1,29 @@
 import csv
 import io
 from calendar import month_name
-from typing import Optional
+from datetime import datetime
+from typing import Optional, Union
 
 import pandas as pd
 from pandas import DataFrame
 
-from src.constans import ColumnsNamesEnum, SummaryResumeKeyNames, VarTypesEnum
+from src.aws import Aws
+from src.constans import (
+    ColumnsNamesEnum,
+    SummaryDataNameColumns,
+    SummaryKeyNames,
+    VarTypesEnum,
+)
 from src.email import Email
 
 
 class Summary:
-    def __init__(self, csv_file: str):
-        self.data: DataFrame = pd.DataFrame()
-        self.resume = dict()
+    def __init__(self, email_str: str, csv_file: str):
+        self.aws = Aws()
+        self.save_flag: Union[str, int]
+        self.email_str: str = email_str
+        self.data_frame: DataFrame = pd.DataFrame()
+        self.summary_data = dict()
         self.__set_data(csv_file)
 
     def __set_data(self, csv_file) -> None:
@@ -24,39 +34,57 @@ class Summary:
             for row in reader:
                 data.append(row)
 
-        self.data: DataFrame = pd.DataFrame.from_records(data)
-        self.data = self.data.astype(
+        self.data_frame: DataFrame = pd.DataFrame.from_records(data)
+        self.data_frame = self.data_frame.astype(
             {
-                ColumnsNamesEnum.Transaction.value: VarTypesEnum.floatType.value,
-                ColumnsNamesEnum.Id.value: VarTypesEnum.intType.value,
+                ColumnsNamesEnum.transaction.value: VarTypesEnum.float_type.value,
+                ColumnsNamesEnum.id.value: VarTypesEnum.int_type.value,
             }
         )
 
     def __save_data(self) -> None:
-        pass
+
+        resume_data = {
+            SummaryDataNameColumns.id.value: self.email_str,
+            SummaryDataNameColumns.date_send.value: str(datetime.now()),
+            SummaryDataNameColumns.total_balance.value: str(
+                self.summary_data[SummaryKeyNames.total_balance.value]
+            ),
+            SummaryDataNameColumns.average_debit_amount.value: str(
+                self.summary_data[SummaryKeyNames.average_debit_amount.value]
+            ),
+            SummaryDataNameColumns.average_credit_amount.value: str(
+                self.summary_data[SummaryKeyNames.average_credit_amount.value]
+            ),
+            SummaryDataNameColumns.transactions_by_months.value: self.summary_data[
+                SummaryKeyNames.transactions_by_months.value
+            ],
+        }
+
+        self.save_flag = self.aws.save_data(resume_data)
 
     def __set_total_balance(self) -> None:
-        balance = self.data[ColumnsNamesEnum.Transaction.value].sum()
-        self.resume[SummaryResumeKeyNames.totalBalance.value] = balance
+        balance = self.data_frame[ColumnsNamesEnum.transaction.value].sum()
+        self.summary_data[SummaryKeyNames.total_balance.value] = balance
 
     def __set_average_credit(self) -> None:
-        credit_amount_average = self.data[
-            self.data[ColumnsNamesEnum.Transaction.value] > 0
-        ][ColumnsNamesEnum.Transaction.value].mean()
-        self.resume[
-            SummaryResumeKeyNames.averageCreditAmount.value
+        credit_amount_average = self.data_frame[
+            self.data_frame[ColumnsNamesEnum.transaction.value] > 0
+        ][ColumnsNamesEnum.transaction.value].mean()
+        self.summary_data[
+            SummaryKeyNames.average_credit_amount.value
         ] = credit_amount_average
 
     def __set_average_debit(self) -> None:
-        debit_amount_average = self.data[
-            self.data[ColumnsNamesEnum.Transaction.value] < 0
-        ][ColumnsNamesEnum.Transaction.value].mean()
-        self.resume[
-            SummaryResumeKeyNames.averageDebitAmount.value
+        debit_amount_average = self.data_frame[
+            self.data_frame[ColumnsNamesEnum.transaction.value] < 0
+        ][ColumnsNamesEnum.transaction.value].mean()
+        self.summary_data[
+            SummaryKeyNames.average_debit_amount.value
         ] = debit_amount_average
 
     def __set_transactions_by_months(self) -> None:
-        dates = self.data[ColumnsNamesEnum.Date.value].tolist()
+        dates = self.data_frame[ColumnsNamesEnum.date_transaction.value].tolist()
         months = [int(i.split("/")[0]) for i in dates]
 
         transactions = list()
@@ -66,12 +94,12 @@ class Summary:
             if month_total > 0:
                 transactions.append(
                     {
-                        SummaryResumeKeyNames.monthName.value: month_name[month_number],
-                        SummaryResumeKeyNames.numberTransactionOfMonth.value: month_total,
+                        SummaryKeyNames.month_name.value: month_name[month_number],
+                        SummaryKeyNames.number_transaction_of_month.value: month_total,
                     }
                 )
 
-        self.resume[SummaryResumeKeyNames.transactionsByMonths.value] = transactions
+        self.summary_data[SummaryKeyNames.transactions_by_months.value] = transactions
 
     def __process_data(self) -> None:
         self.__set_total_balance()
@@ -80,15 +108,14 @@ class Summary:
         self.__set_transactions_by_months()
 
     def execute(self) -> None:
-
-        self.__save_data()
         self.__process_data()
+        self.__save_data()
 
-    def send_email(self, email_str: str) -> Optional[str]:
+    def send_email(self) -> Optional[str]:
 
-        email = Email()
-        message_str = email.create_template(self.resume)
+        email = Email(self.aws)
+        message_str = email.create_template(self.summary_data)
 
         return email.send(
-            pd.DataFrame.from_records(self.resume), email_str, message_str
+            pd.DataFrame.from_records(self.summary_data), self.email_str, message_str
         )

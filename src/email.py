@@ -13,7 +13,8 @@ from src.constans import NAME_FILE, SENDER
 
 
 class Email:
-    def __init__(self):
+    def __init__(self, aws: Aws):
+        self.aws: Aws = aws
         self.template = Environment(
             loader=FileSystemLoader(
                 path.join(path.dirname(__file__), "templates"), encoding="utf8"
@@ -22,7 +23,7 @@ class Email:
 
     def create_template(self, params: Dict) -> str:
         template = self.template.get_template(
-            "resume.htm",
+            "summary.htm",
         )
         return template.render(params=params)
 
@@ -62,8 +63,6 @@ class Email:
         return message.as_string()
 
     def send(self, data_frame, email_to_str: str, message: str) -> Optional[str]:
-
-        aws = Aws()
         message_prepare = self.prepare(data_frame, message, email_to_str)
-        message_id = aws.send_email(SENDER, [email_to_str], message_prepare)
+        message_id = self.aws.send_email(SENDER, [email_to_str], message_prepare)
         return message_id
