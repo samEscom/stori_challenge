@@ -14,6 +14,6 @@ def main(event, context) -> Dict:
 
     return {
         "emailId": email_id,
-        "len_data": summary.data.shape[0],
+        "lenData": summary.data.shape[0],
         "resume": summary.resume,
     }
