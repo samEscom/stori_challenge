@@ -17,3 +17,5 @@ class SummaryResumeKeyNames(Enum):
     averageCreditAmount = "averageCreditAmount"
     averageDebitAmount = "averageDebitAmount"
     transactionsByMonths = "transactionsByMonths"
+    monthName = "monthName"
+    numberTransactionOfMonth = "numberTransactionOfMonth"

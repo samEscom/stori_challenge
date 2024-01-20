@@ -1,0 +1,71 @@
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-color:#aaa;border-spacing:0;}
+  .tg td{background-color:#fff;border-color:#aaa;border-style:solid;border-width:1px;color:#333;
+    font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{background-color:#f38630;border-color:#aaa;border-style:solid;border-width:1px;color:#fff;
+    font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-0v0n{background-color:#f5f5f5;text-align:left;vertical-align:top}
+  .tg .tg-ohhh{background-color:#f5f5f5;border-color:#9b9b9b;text-align:left;vertical-align:top}
+  .tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<div><div></div><div></div><div><div><div style="background-color:#fff;margin:0;padding:0" table-width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#fff;background-size:auto;background-image:none;background-position:top left;background-repeat:no-repeat">
+<tbody></tbody><tr><td><table align="center" width="100%" border="0"cellpadding="0" cellspacing="0" role="presentation"style="background-color:#e1e1e1">
+<tbody><tr><td><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1;border-radius:0;color:#000;width:500px;margin:0 auto" width="500"tbody>
+<tr><td width="100%" style="font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<div style="height:5px;line-height:5px;font-size:1px"></div></td></tr></tbody></table></td></tr></tbody></table>
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1;background-size:auto">
+<tbody><tr><td><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-size:auto;background-color:#e1e1e1;border-radius:0;color:#000;width:500px;margin:0 auto" width="500">
+<tbody><tr><td width="100%" style="font-weight:400;text-align:left;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"><tbody><tr><td style="width:100%;padding-right:0;padding-left:0"><div align="center" style="line-height:10px">
+<div style="max-width:500px"><img src="https://ci3.googleusercontent.com/meips/ADKq_NZOhVnZC3gun9asqSfO2vNfylNCoFkMRMx9WYHIyDPveDxritphYfCMMAAz8d4hMsngAsVfOfGG5S6Z1mm7pToKXj5XWtXPF4IW6RyrIBATEmS4U69e_w6rfqpKsMdt5PtuTOefF2MtOcD8s1AArJEfLhGDpNxo9UFhKQGeAmjsLy4R3avgIjFj8UDjb4QP=s0-d-e1-ft#https://braze-images.com/appboy/communication/assets/image_assets/images/657b7e84a190d6004d5d39d4/original.gif?1702592132" style="display:block;height:auto;border:0;width:100%" width="500" tabindex="0">
+</div></div></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1">
+<tbody><tr><td><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#fff;border-radius:0;color:#000;width:500px;margin:0 auto" width="500">
+<tbody><tr><td width="100%" style="font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<div style="height:10px;line-height:10px;font-size:1px"></div><div style="height:20px;line-height:20px;font-size:1px"></div><table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="word-break:break-word">
+<tbody><tr><td style="padding-left:40px;padding-right:40px"><div style="color:#003a40;direction:ltr;font-family:'Open Sans',Arial,Sans-serif;font-size:25px;font-weight:400;letter-spacing:0;line-height:120%;text-align:left">
+<p style="margin:0">Te traemos el resumen de tus cuentas&nbsp;</p></div></td></tr></tbody></table>
+<div style="height:30px;line-height:30px;font-size:1px"></div>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="word-break:break-word"><tbody><tr>
+<td style="padding-left:40px;padding-right:40px">
+<div style="color:#003a40;direction:ltr;font-family:'Open Sans',Arial,Sans-serif;font-size:15px;font-weight:400;letter-spacing:0;line-height:150%;text-align:left">
+    <p style="margin:0;margin-bottom:0">El balance total: {{params["totalBalance"]}}</p>
+    <p style="margin:0;margin-bottom:0">Monto promedio de debito: {{params["totalBalance"]}}</p>
+    <p style="margin:0;margin-bottom:0">Monto promedio de credito: {{params["totalBalance"]}}</p>
+<table class="tg" style="undefined;table-layout: fixed; width: 185px">
+<colgroup><col style="width: 97px"><col style="width: 88px"></colgroup>
+<thead><tr><th class="tg-0v0n"><span style="font-weight:bold;color:#656565">Mes</span></th><th class="tg-ohhh"><span style="font-weight:bold;color:#656565">Total</span></th></tr></thead>
+<tbody>
+  {%- for line in  params["transactionsByMonths"]%}
+    <tr><td class="tg-0lax">{{ line["monthName"]}}</td><td class="tg-0lax">{{line["numberTransactionOfMonth"]}}</td></tr>
+  {% endfor %}
+</tbody>
+</table>
+<p style="margin:0;margin-bottom:0"><br><br></p></div></td></tr></tbody></table><div style="height:30px;line-height:30px;font-size:1px">
+</div></td></tr></tbody></table></td></tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1;background-size:auto">
+<tbody><tr><td><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#fff;background-size:auto;border-radius:0;color:#000;width:500px;margin:0 auto" width="500">
+<tbody><tr></tr></tbody></table></td></tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1"><tbody><tr><td>
+<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#fff;border-radius:0 0 20px 20px;color:#000;width:500px;margin:0 auto" width="500">
+<tbody><tr><td width="100%" style="font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="word-break:break-word">
+<tbody><tr><td style="padding-bottom:25px;padding-left:40px;padding-right:40px;padding-top:25px">
+<div style="color:#003a40;direction:ltr;font-family:'Open Sans',Arial,Sans-serif;font-size:12px;font-weight:400;letter-spacing:0;line-height:120%;text-align:left">&nbsp;</div>
+</td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1">
+<tbody><tr><td><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1;border-radius:0;color:#000;width:500px;margin:0 auto" width="500">
+<tbody><tr><td width="100%" style="font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<div style="height:5px;line-height:5px;font-size:1px">
+</div></td></tr></tbody></table></td></tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1">
+<tbody><tr><td><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#f5f5f5;border-radius:20px 20px 0 0;color:#000;width:500px;margin:0 auto" width="500">
+<tbody><tr><td width="33.333333333333336%" style="font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<div style="height:30px;line-height:30px;font-size:1px"></div><table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+<tbody><tr><td style="width:100%;padding-right:0;padding-left:0"><div align="center" style="line-height:10px">
+<div style="max-width:133.33px"><img src="https://ci3.googleusercontent.com/meips/ADKq_NZOxmlnBWk5AK3e6FUss0kjh46UVnNiGJkpJMSNGO-p54_lxcUnL-bjDjm_doOJ9tJfJJuJ0NS9TuBvxKiRMEy2E5-FW4jlKgIN3io2fL2FeakfxugbLPyaAfGnEubSdcXBVijrjbZlQxAV1y7zVUgLTncSDurgug_a5Jv6ADrj_jbhU7G7p4eIvmGKUZQZ=s0-d-e1-ft#https://braze-images.com/appboy/communication/assets/image_assets/images/6549d8c306253d004ed61b2e/original.png?1699338434" style="display:block;height:auto;border:0;width:100%" width="133.33">
+</div></div></td></tr></tbody></table></td><td width="66.66666666666667%" style="font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<div style="height:20px;line-height:20px;font-size:1px"></div></td></tr></tbody></table></td>
+</tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#e1e1e1"><tbody><tr><td>
+<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#f5f5f5;border-radius:0;color:#000;width:500px;margin:0 auto" width="500">
+<tbody><tr><td width="100%" style="font-weight:400;text-align:left;padding-bottom:15px;vertical-align:top;border-top:0;border-right:0;border-bottom:0;border-left:0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"style="word-break:break-word">
+<tbody><tr><td style="padding-bottom:10px;padding-left:30px;padding-right:30px;padding-top:10px"><div style="color:#7b7b7b;direction:ltr;font-family:'Open Sans',Arial,Sans-serif;font-size:10px;font-weight:700;letter-spacing:0;line-height:120%;text-align:left">
+<p style="margin:0;margin-bottom:0">&nbsp;</p><p style="margin:0;margin-bottom:0">&nbsp;</p><p style="margin:0;margin-bottom:0">Este correo fue enviado por sa5mchavez como una prueba para<span>Stori</span>.<br>
+<p style="margin:0">&nbsp;</p></div></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table><div></div><div></div></div><div></div></div></div><div></div><div></div></div>

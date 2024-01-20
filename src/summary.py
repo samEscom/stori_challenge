@@ -6,6 +6,7 @@ import pandas as pd
 from pandas import DataFrame
 
 from src.constans import ColumnsNamesEnum, SummaryResumeKeyNames, VarTypesEnum
+from src.email import Email
 
 
 class Summary:
@@ -57,12 +58,15 @@ class Summary:
         dates = self.data[ColumnsNamesEnum.Date.value].tolist()
         months = [int(i.split("/")[0]) for i in dates]
 
-        transactions = dict()
+        transactions = list()
         for month_number in range(1, 13):
             month_total = months.count(month_number)
 
             if month_total > 0:
-                transactions[month_name[month_number]] = month_total
+                transactions.append({
+                    SummaryResumeKeyNames.monthName.value: month_name[month_number],
+                    SummaryResumeKeyNames.numberTransactionOfMonth.value: month_total,
+                })
 
         self.resume[SummaryResumeKeyNames.transactionsByMonths.value] = transactions
 
@@ -77,6 +81,9 @@ class Summary:
         self.__save_data()
         self.__process_data()
 
-    def send_email(self, email: str) -> int:
+    def send_email(self, email_str: str) -> int:
 
-        return 0
+        email = Email()
+        message = email.create_template(self.resume)
+
+        return email.send(email_str, message)
