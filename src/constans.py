@@ -2,27 +2,36 @@ from enum import Enum
 
 
 class ColumnsNamesEnum(Enum):
-    Id = "Id"
-    Transaction = "Transaction"
-    Date = "Date"
+    id = "Id"
+    transaction = "Transaction"
+    date_transaction = "Date"
 
 
 class VarTypesEnum(Enum):
-    floatType = "float64"
-    intType = "int32"
+    float_type = "float64"
+    int_type = "int32"
 
 
-class SummaryResumeKeyNames(Enum):
-    totalBalance = "totalBalance"
-    averageCreditAmount = "averageCreditAmount"
-    averageDebitAmount = "averageDebitAmount"
-    transactionsByMonths = "transactionsByMonths"
-    monthName = "monthName"
-    numberTransactionOfMonth = "numberTransactionOfMonth"
+class SummaryKeyNames(Enum):
+    total_balance = "totalBalance"
+    average_credit_amount = "averageCreditAmount"
+    average_debit_amount = "averageDebitAmount"
+    transactions_by_months = "transactionsByMonths"
+    month_name = "monthName"
+    number_transaction_of_month = "numberTransactionOfMonth"
+
+
+class SummaryDataNameColumns(Enum):
+    id = "Id"
+    date_send = "date_send"
+    total_balance = "total_balance"
+    average_credit_amount = "average_credit_amount"
+    average_debit_amount = "average_debit_amount"
+    transactions_by_months = "transactions_by_months"
 
 
 AWS_SERVICE_SES = "ses"
-AWS_REGION_WEST = "us-west-2"
+AWS_REGION_EAST = "us-east-2"
 
-SENDER = "correo@algo.com"
+SENDER = "sam.escom@outlook.com"
 NAME_FILE = "resumen"

@@ -8,12 +8,13 @@ def main(event, context) -> Dict:
     email = event["email"]
     file_csv = b64decode(event["body-json"]).decode("utf-8")
 
-    summary = Summary(file_csv)
+    summary = Summary(email, file_csv)
     summary.execute()
-    email_id = summary.send_email(email)
+    email_id = summary.send_email()
 
     return {
         "emailId": email_id,
-        "lenData": summary.data.shape[0],
-        "resume": summary.resume,
+        "save": summary.save_flag,
+        "lenData": summary.data_frame.shape[0],
+        "summaryData": summary.summary_data,
     }
