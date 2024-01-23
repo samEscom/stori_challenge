@@ -31,7 +31,9 @@ class SummaryDataNameColumns(Enum):
 
 
 AWS_SERVICE_SES = "ses"
+AWS_SERVICE_S3 = "s3"
 AWS_REGION_EAST = "us-east-2"
 
 SENDER = "sam.escom@outlook.com"
 NAME_FILE = "resumen"
+BUCKET_NAME = "resumes-challenge"

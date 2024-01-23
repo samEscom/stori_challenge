@@ -10,3 +10,9 @@ class Boto3ClienMock:
         if data.get("raise_exception"):
             raise "Mock AWS Exception"
         return data.get("response", {})
+
+    def get_object(self, **kwargs) -> Dict:
+        data = self.mock_data["get_object"]
+        if data.get("raise_exception"):
+            raise "Mock AWS Exception"
+        return data.get("response", {})

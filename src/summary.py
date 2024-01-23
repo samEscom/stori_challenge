@@ -18,18 +18,18 @@ from src.email import Email
 
 
 class Summary:
-    def __init__(self, email_str: str, csv_file: str):
+    def __init__(self, email_str: str, file_name: str):
         self.aws = Aws()
         self.save_flag: Union[str, int]
         self.email_str: str = email_str
         self.data_frame: DataFrame = pd.DataFrame()
         self.summary_data = dict()
-        self.__set_data(csv_file)
+        self.__set_data(self.aws.get_csv_file(file_name))
 
     def __set_data(self, csv_file) -> None:
         data = list()
-
-        with io.StringIO(csv_file) as fp:
+        data_file = csv_file.decode("utf-8")
+        with io.StringIO(data_file) as fp:
             reader = csv.DictReader(fp)
             for row in reader:
                 data.append(row)

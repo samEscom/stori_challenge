@@ -1,4 +1,3 @@
-from base64 import b64decode
 from typing import Dict
 
 from src.summary import Summary
@@ -6,9 +5,9 @@ from src.summary import Summary
 
 def main(event, context) -> Dict:
     email = event["email"]
-    file_csv = b64decode(event["body-json"]).decode("utf-8")
+    file_name = event["fileName"]
 
-    summary = Summary(email, file_csv)
+    summary = Summary(email, file_name)
     summary.execute()
     email_id = summary.send_email()
 
