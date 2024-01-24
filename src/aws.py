@@ -3,7 +3,14 @@ from typing import Any, Dict, List, Union
 import boto3
 from botocore.client import Config
 
-from src.constans import AWS_REGION_EAST, AWS_SERVICE_S3, AWS_SERVICE_SES, BUCKET_NAME
+from src.constans import (
+    AWS_REGION_EAST,
+    AWS_SERVICE_DYNAMO,
+    AWS_SERVICE_S3,
+    AWS_SERVICE_SES,
+    BUCKET_NAME,
+    TABLE_NAME,
+)
 
 
 class Aws:
@@ -27,8 +34,8 @@ class Aws:
 
     def save_data(self, summary: Dict) -> Union[int, str]:
         try:
-            dynamodb = self.get_client("dynamodb")
-            response = dynamodb.put_item(TableName="summaries", Item=summary)
+            dynamodb = self.get_client(AWS_SERVICE_DYNAMO)
+            response = dynamodb.put_item(TableName=TABLE_NAME, Item=summary)
             return response["ResponseMetadata"]["HTTPStatusCode"] == 200
 
         except Exception:
