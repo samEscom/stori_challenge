@@ -1,6 +1,7 @@
 from enum import Enum
 
 
+# Name of columns on CSV file
 class ColumnsNamesEnum(Enum):
     id = "Id"
     transaction = "Transaction"
@@ -12,6 +13,7 @@ class VarTypesEnum(Enum):
     int_type = "int32"
 
 
+# The name of the keys  output body if success
 class SummaryKeyNames(Enum):
     total_balance = "totalBalance"
     average_credit_amount = "averageCreditAmount"
@@ -21,6 +23,7 @@ class SummaryKeyNames(Enum):
     number_transaction_of_month = "numberTransactionOfMonth"
 
 
+# The name of the columns of the table
 class SummaryDataNameColumns(Enum):
     id = "Id"
     date_send = "date_send"
@@ -30,15 +33,24 @@ class SummaryDataNameColumns(Enum):
     transactions_by_months = "transactions_by_months"
 
 
+# AWS SERVICES
 AWS_SERVICE_SES = "ses"
 AWS_SERVICE_S3 = "s3"
 AWS_REGION_EAST = "us-east-2"
+AWS_SERVICE_DYNAMO = "dynamodb"
 
+# AWS SES SENDER
 SENDER = "sam.escom@outlook.com"
 NAME_FILE = "resumen"
+
+# AWS VARS of bucket and name of table
 BUCKET_NAME = "resumes-challenge"
+TABLE_NAME = "summaries"
+
 
 EMAIL_PATTERN = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
+
+# HTTP CONFIG
 ACCESS_KEY = "A"
 POST_METHOD = "POST"
