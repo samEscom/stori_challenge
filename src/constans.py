@@ -37,3 +37,8 @@ AWS_REGION_EAST = "us-east-2"
 SENDER = "sam.escom@outlook.com"
 NAME_FILE = "resumen"
 BUCKET_NAME = "resumes-challenge"
+
+EMAIL_PATTERN = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+
+ACCESS_KEY = "A"
+POST_METHOD = "POST"
