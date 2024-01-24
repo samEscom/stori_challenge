@@ -35,14 +35,20 @@ For this challenge:
 
 ## Use local
 
-una vez configurado el entorno de aws de manera local, 
-se puede ejecutar usando el script run_local.py
+once the aws environment is configured locally,
+can be run using the script run_local.py
 
+first step, active the enviroment
+```sh
+source .venv/bin/activate
+```
+
+and run
 ```sh
 python run_local.py
 ```
 
-#### example:
+#### example of local response:
 
 <img width="818" alt="run_local" src="https://github.com/samEscom/stori_challenge/assets/11033993/16401ae4-0996-4cd1-99fb-0c17b549892d">
 
@@ -71,8 +77,13 @@ The coverage achieved in this phase of the test is the following
 
 ## Use with postman
 
+Use the following URL:
 
-Use on the header  "content-type": "application/json"
+https://5ueyx4dowr4gbfees63usdluiq0tzeqb.lambda-url.us-east-2.on.aws/
+
+with POST method
+
+Use on the header the  "content-type": "application/json"
 
 and the body like this
 
@@ -82,6 +93,18 @@ and the body like this
     "fileName": "example.csv" // example2.csv could be option on my S3 bucket
 }
 ```
+### content of example.csv
+<img width="563" alt="example" src="https://github.com/samEscom/stori_challenge/assets/11033993/77d21d56-1d4c-4fc2-8cb0-0613d1ee5717">
+
+### content of example2.csv
+<img width="356" alt="example2" src="https://github.com/samEscom/stori_challenge/assets/11033993/fa48aa8e-9aa8-4493-901e-b8e79f824c6f">
+
+
+### Example of email sended
+
+<img width="1091" alt="email_result" src="https://github.com/samEscom/stori_challenge/assets/11033993/18895851-ba3a-4079-bb8f-3a54eca68079">
+
+### Use cases and validations in postman
 
 * If the parameters are invalid, a statusCode 500 will be returned.
 
