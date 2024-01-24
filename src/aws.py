@@ -2,7 +2,6 @@ from typing import Any, Dict, List, Union
 
 import boto3
 from botocore.client import Config
-from botocore.exceptions import ClientError, NoCredentialsError
 
 from src.constans import AWS_REGION_EAST, AWS_SERVICE_S3, AWS_SERVICE_SES, BUCKET_NAME
 
@@ -23,22 +22,17 @@ class Aws:
                 Source=email_from, Destinations=emails_to, RawMessage={"Data": data}
             )
             return resp["MessageId"]
-        except Exception as e:
-            return str(e)
+        except Exception:
+            raise
 
     def save_data(self, summary: Dict) -> Union[int, str]:
         try:
-            dynamodb = boto3.resource("dynamodb", region_name=AWS_REGION_EAST)
-            table = dynamodb.Table("summaries")
-            response = table.put_item(Item=summary)
+            dynamodb = self.get_client("dynamodb")
+            response = dynamodb.put_item(TableName="summaries", Item=summary)
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
 
-            return response["ResponseMetadata"]["HTTPStatusCode"]
-
-        except ClientError as err:
-            return str(err.response["Error"]["Code"], err.response["Error"]["Message"])
-
-        except NoCredentialsError as err:
-            return str(err)
+        except Exception:
+            raise
 
     def get_csv_file(self, file_name: str) -> Any:
         try:
@@ -47,5 +41,5 @@ class Aws:
 
             return response["Body"].read()
 
-        except Exception as e:
-            raise RuntimeError(f"[Error] : error leyendo el archivo {str(e)}")
+        except Exception:
+            raise

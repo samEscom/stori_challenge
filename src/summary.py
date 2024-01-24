@@ -45,20 +45,28 @@ class Summary:
     def __save_data(self) -> None:
 
         resume_data = {
-            SummaryDataNameColumns.id.value: self.email_str,
-            SummaryDataNameColumns.date_send.value: str(datetime.now()),
-            SummaryDataNameColumns.total_balance.value: str(
-                self.summary_data[SummaryKeyNames.total_balance.value]
-            ),
-            SummaryDataNameColumns.average_debit_amount.value: str(
-                self.summary_data[SummaryKeyNames.average_debit_amount.value]
-            ),
-            SummaryDataNameColumns.average_credit_amount.value: str(
-                self.summary_data[SummaryKeyNames.average_credit_amount.value]
-            ),
-            SummaryDataNameColumns.transactions_by_months.value: self.summary_data[
-                SummaryKeyNames.transactions_by_months.value
-            ],
+            SummaryDataNameColumns.id.value: {
+                "S": self.email_str,
+            },
+            SummaryDataNameColumns.date_send.value: {
+                "S": str(datetime.now()),
+            },
+            SummaryDataNameColumns.total_balance.value: {
+                "S": str(self.summary_data[SummaryKeyNames.total_balance.value]),
+            },
+            SummaryDataNameColumns.average_debit_amount.value: {
+                "S": str(self.summary_data[SummaryKeyNames.average_debit_amount.value]),
+            },
+            SummaryDataNameColumns.average_credit_amount.value: {
+                "S": str(
+                    self.summary_data[SummaryKeyNames.average_credit_amount.value]
+                ),
+            },
+            SummaryDataNameColumns.transactions_by_months.value: {
+                "S": str(
+                    self.summary_data[SummaryKeyNames.transactions_by_months.value]
+                )
+            },
         }
 
         self.save_flag = self.aws.save_data(resume_data)

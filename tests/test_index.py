@@ -1,41 +1,11 @@
-from datetime import datetime
-from io import BytesIO
+from json import loads
 
 import boto3
-import pytest
-from botocore.response import StreamingBody
 
 from index import handler
+from tests.mocks.inputs import event, mock_data
 
 from .mocks.boto3_client import Boto3ClienMock
-
-file_upload = open("example.csv")
-file_s3 = bytes(file_upload.read(), "utf-8")
-raw_stream = StreamingBody(BytesIO(file_s3), len(file_s3))
-file_upload.close()
-
-mock_data = {
-    "send_raw_email": {
-        "raise_exception": False,
-        "response": {"MessageId": "12345678"},
-    },
-    "get_object": {
-        "raise_exception": False,
-        "response": {
-            "ResponseMetadata": {
-                "RequestId": "6BFC00970E62BC8F",
-                "HTTPStatusCode": 200,
-                "RetryAttempts": 1,
-            },
-            "LastModified": str(datetime(2024, 1, 29, 5, 39, 29)),
-            "ContentLength": 58,
-            "ETag": '"6299528715bad0e3510d1e4c4952ee7e"',
-            "ContentType": "binary/octet-stream",
-            "Metadata": {},
-            "Body": raw_stream,
-        },
-    },
-}
 
 
 def test_index_success(monkeypatch):
@@ -45,17 +15,21 @@ def test_index_success(monkeypatch):
     monkeypatch.setattr(boto3, "client", mock_boto3client_success)
 
     response = handler(
-        event={"email": "sa5m.escom@gmail.com", "fileName": "example.csv"},
+        event=event,
         context=None,
     )
 
-    assert response["emailId"] == "12345678"
-    assert response["lenData"] == 4
-    assert isinstance(response["summaryData"], dict)
-    assert response["summaryData"]["totalBalance"] == 39.74
-    assert response["summaryData"]["averageCreditAmount"] == 35.25
-    assert response["summaryData"]["averageDebitAmount"] == -15.38
-    assert isinstance(response["summaryData"]["transactionsByMonths"], list)
+    assert response["statusCode"] == 200
+
+    body = loads(response["body"])
+
+    assert body["emailId"] == "12345678"
+    assert body["lenData"] == 4
+    assert isinstance(body["summaryData"], dict)
+    assert body["summaryData"]["totalBalance"] == 39.74
+    assert body["summaryData"]["averageCreditAmount"] == 35.25
+    assert body["summaryData"]["averageDebitAmount"] == -15.38
+    assert isinstance(body["summaryData"]["transactionsByMonths"], list)
 
 
 def test_index_error(monkeypatch):
@@ -66,8 +40,48 @@ def test_index_error(monkeypatch):
 
     monkeypatch.setattr(boto3, "client", mock_boto3client_success)
 
-    with pytest.raises(RuntimeError) as excinfo:
-        handler(
-            event={"email": "sa5m.escom@gmail.com", "fileName": "example.csv"},
-            context=None,
-        )
+    response = handler(event=event, context=None)
+
+    assert response["statusCode"] == 400
+
+
+def test_index_error_params(monkeypatch):
+
+    event["body"] = '{\n    "email": "sa5m.escom@gmail.com", "fileName": null\n}'
+
+    def mock_boto3client_success(_, **kwargs):
+        return Boto3ClienMock(_, mock_data=mock_data)
+
+    monkeypatch.setattr(boto3, "client", mock_boto3client_success)
+
+    response = handler(event=event, context=None)
+
+    assert response["statusCode"] == 500
+
+    event["body"] = '{\n    "email": "sa5m.escom", "fileName": "example.csv"\n}'
+
+    def mock_boto3client_success(_, **kwargs):
+        return Boto3ClienMock(_, mock_data=mock_data)
+
+    monkeypatch.setattr(boto3, "client", mock_boto3client_success)
+
+    response = handler(event=event, context=None)
+
+    assert response["statusCode"] == 500
+
+
+def _test_index_error_save_data(monkeypatch):
+    mock_data["get_object"]["raise_exception"] = False
+    event[
+        "body"
+    ] = '{\n"email": "sa5m.escom@gmail.com", "fileName": example_save.csv\n}'
+    mock_data["put_item"]["response"] = {}
+
+    def mock_boto3client_success(_, **kwargs):
+        return Boto3ClienMock(_, mock_data=mock_data)
+
+    monkeypatch.setattr(boto3, "client", mock_boto3client_success)
+
+    response = handler(event=event, context=None)
+
+    assert response["statusCode"] == 500
